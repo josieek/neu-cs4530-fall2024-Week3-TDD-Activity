@@ -6,20 +6,40 @@ import { ICalculatorModel } from '../interfaces/calculator-model.interface';
 
 export class CalculatorModel implements ICalculatorModel {
 
+  private _buffer: string = '';
+  private _memory: string[] = [];
+
   public pressNumericKey(key: NumericKeys): void {
-    throw new Error('Method not implemented.');
+    this._buffer += key;
   }
 
   public pressOperatorKey(key: OperatorKeys): void {
-    throw new Error('Method not implemented.');
+    this._memory.push(this._buffer);
+    this._buffer = '';
+    this._memory.push(key);
   }
 
   public pressActionKey(key: ActionKeys): void {
-    throw new Error('Method not implemented.');
+    this._memory.push(this._buffer);
+    this._buffer = '';
+    if(key === '=') {
+      let left_val = parseInt(this._memory.shift());
+      while(this._memory.length > 0) {
+        let op = this._memory.shift();
+        let right = parseInt(this._memory.shift());
+        if(op === '+') {
+          left_val = left_val + right;
+        } 
+        else if(op === '-') {
+          left_val = left_val - right;
+        }
+      }
+      this._buffer = left_val.toString();
+    }
   }
 
   public display(): string {
-    return '';
+    return this._buffer;
   }
 
 }
