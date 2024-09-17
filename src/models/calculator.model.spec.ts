@@ -1,6 +1,7 @@
 
 import { CalculatorModel } from './calculator.model';
 import { ICalculatorModel } from '../interfaces/calculator-model.interface';
+import { NumericKeys } from '../enums/numeric-keys.enum';
 
 describe('CalculatorModel', (): void => {
 
@@ -10,6 +11,20 @@ describe('CalculatorModel', (): void => {
 
     expect(calculator).toBeDefined();
 
+  });
+
+  it('should display `1` when the `1` key is pressed', (): void => {
+
+    // Assemble
+    const calculator: ICalculatorModel = new CalculatorModel();
+  
+    // Act
+    calculator.pressNumericKey(NumericKeys.ONE);
+    const displayValue: string = calculator.display();
+  
+    // Assert
+    expect(displayValue).toEqual('1');
+  
   });
 
 });
